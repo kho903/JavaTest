@@ -7,14 +7,16 @@ import org.junit.jupiter.api.Test;
 
 class StudyTagTest {
 	@Test
-	@Tag("fast")
+	// @Tag("fast")
+	@FastTest
 	void TagFast() {
 		Study study = new Study(10);
 		assertThat(study.getLimit()).isGreaterThan(0);
 	}
 
 	@Test
-	@Tag("slow")
+	// @Tag("slow")
+	@SlowTest
 	void TagSlow() {
 		Study study = new Study(10);
 		assertThat(study.getLimit()).isGreaterThan(0);
