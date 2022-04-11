@@ -2,11 +2,19 @@ package com.jikim.thejavatest;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.*;
 
 import java.time.Duration;
 import java.util.function.Supplier;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.condition.DisabledOnJre;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
+import org.junit.jupiter.api.condition.EnabledOnJre;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.JRE;
+import org.junit.jupiter.api.condition.OS;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class) // _ -> ""
 class StudyTest {
@@ -84,6 +92,29 @@ class StudyTest {
 	}
 
 	@Test
+	@DisplayName("assumeTest")
+	@EnabledOnOs(OS.MAC)
+	@EnabledOnJre(JRE.JAVA_11)
+	@EnabledIfEnvironmentVariable(named = "HOME", matches = "/Users/kimjihun")
+	void assumeTest() {
+		assumeTrue(System.getenv().get("HOME").equals("/Users/kimjihun"));
+		assumingThat(System.getenv().get("HOME").equals("/Users/kimjihun"), () -> {
+			System.out.println("kimjihun");
+			Study study = new Study(10);
+			assertThat(study.getLimit()).isGreaterThan(0);
+		});
+		assumingThat(System.getenv().get("HOME").equals("/Users/kimjihun1"), () -> {
+			System.out.println("kimjihun1");
+			Study study = new Study(10);
+			assertThat(study.getLimit()).isGreaterThan(0);
+		});
+		Study study = new Study(10);
+		assertThat(study.getLimit()).isGreaterThan(0);
+	}
+
+	@Test
+	@DisabledOnOs(OS.MAC)
+	@DisabledOnJre(JRE.JAVA_11)
 	void create_new_study_again() {
 		System.out.println("create1");
 	}
