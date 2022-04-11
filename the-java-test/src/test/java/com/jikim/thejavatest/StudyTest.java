@@ -32,10 +32,12 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class) // _ -> ""
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class StudyTest {
 
 	int value = 1;
 
+	@Order(5)
 	@Test
 	@DisplayName("스터디 만들기")
 	void create_new_study() {
@@ -67,6 +69,7 @@ class StudyTest {
 		assertTrue(study.getLimit() > 0, "스터디 최대 참석 가능 인원은 0보다 커야 한다.");
 	}
 
+	@Order(1)
 	@Test
 	@DisplayName("assertAll")
 	void create_new_study_assert_all() {
@@ -82,6 +85,7 @@ class StudyTest {
 		);
 	}
 
+	@Order(4)
 	@Test
 	@Disabled("assertThrows")
 	void create_study_assert_throws() {
@@ -93,6 +97,7 @@ class StudyTest {
 		assertEquals("limit은 0보다 커야 한다.", message);
 	}
 
+	@Order(3)
 	@Test
 	@Disabled("assertTimeOut")
 	void create_study_assert_time_out() {
@@ -108,6 +113,7 @@ class StudyTest {
 		// TODO: ThreadLocal
 	}
 
+	@Order(2)
 	@Test
 	@DisplayName("assertJ.core.api.Assertions")
 	void assertJ() {
