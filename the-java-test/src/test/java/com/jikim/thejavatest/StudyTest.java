@@ -31,11 +31,16 @@ import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class) // _ -> ""
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class StudyTest {
+
+	int value = 1;
 
 	@Test
 	@DisplayName("스터디 만들기")
 	void create_new_study() {
+		System.out.println(this);
+		System.out.println("value : " + value++);
 		// Study study = new Study();
 		Study study = new Study(-10);
 
@@ -65,6 +70,8 @@ class StudyTest {
 	@Test
 	@DisplayName("assertAll")
 	void create_new_study_assert_all() {
+		System.out.println(this);
+		System.out.println("value : " + value++);
 		Study study = new Study(-10);
 
 		assertAll(
@@ -78,6 +85,9 @@ class StudyTest {
 	@Test
 	@Disabled("assertThrows")
 	void create_study_assert_throws() {
+		System.out.println(this);
+		System.out.println(value++);
+
 		IllegalStateException exception = assertThrows(IllegalStateException.class, () -> new Study(-10));
 		String message = exception.getMessage();
 		assertEquals("limit은 0보다 커야 한다.", message);
@@ -101,6 +111,9 @@ class StudyTest {
 	@Test
 	@DisplayName("assertJ.core.api.Assertions")
 	void assertJ() {
+		System.out.println(this);
+		System.out.println("value : " + value++);
+
 		Study study = new Study(10);
 		assertThat(study.getLimit()).isGreaterThan(0);
 	}
@@ -111,6 +124,8 @@ class StudyTest {
 	@EnabledOnJre(JRE.JAVA_11)
 	@EnabledIfEnvironmentVariable(named = "HOME", matches = "/Users/kimjihun")
 	void assumeTest() {
+		System.out.println("value : " + value++);
+
 		assumeTrue(System.getenv().get("HOME").equals("/Users/kimjihun"));
 		assumingThat(System.getenv().get("HOME").equals("/Users/kimjihun"), () -> {
 			System.out.println("kimjihun");
@@ -198,12 +213,12 @@ class StudyTest {
 	}
 
 	@BeforeAll
-	static void beforeAll() {
+	void beforeAll() {
 		System.out.println("before all");
 	}
 
 	@AfterAll
-	static void afterAll() {
+	void afterAll() {
 		System.out.println("after all");
 	}
 
