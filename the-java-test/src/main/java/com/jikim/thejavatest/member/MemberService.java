@@ -7,4 +7,6 @@ import com.jikim.thejavatest.domain.Member;
 public interface MemberService {
 
 	Optional<Member> findById(Long memberId) throws MemberNotFoundException;
+
+	void validate(Long memberId);
 }
