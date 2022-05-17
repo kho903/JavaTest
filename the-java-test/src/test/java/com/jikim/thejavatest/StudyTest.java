@@ -1,6 +1,6 @@
 package com.jikim.thejavatest;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.AssertionsForClassTypes.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.*;
 
@@ -30,6 +30,9 @@ import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import com.jikim.thejavatest.domain.Study;
+import com.jikim.thejavatest.study.StudyStatus;
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class StudyTest {
@@ -49,7 +52,7 @@ class StudyTest {
 			() -> assertNotNull(study),
 			() -> assertEquals(StudyStatus.DRAFT, study.getStatus(),
 				() -> "스터디를 처음 만들면 상태값이 " + StudyStatus.DRAFT + "여야 한다."),
-			() -> assertTrue(study.getLimit() > 0, "스터디 최대 참석 가능 인원은 0보다 커야 한다.")
+			() -> assertTrue(study.getLimitCount() > 0, "스터디 최대 참석 가능 인원은 0보다 커야 한다.")
 		);
 
 		assertNotNull(study);
@@ -65,7 +68,7 @@ class StudyTest {
 		});
 		// 위의 테스트에서 예외가 터지면 아래 테스트의 상태는 모른다.
 		// -> assertAll
-		assertTrue(study.getLimit() > 0, "스터디 최대 참석 가능 인원은 0보다 커야 한다.");
+		assertTrue(study.getLimitCount() > 0, "스터디 최대 참석 가능 인원은 0보다 커야 한다.");
 	}
 
 	@Order(1)
@@ -80,7 +83,7 @@ class StudyTest {
 			() -> assertNotNull(study),
 			() -> assertEquals(StudyStatus.DRAFT, study.getStatus(),
 				() -> "스터디를 처음 만들면 상태값이 " + StudyStatus.DRAFT + "여야 한다."),
-			() -> assertTrue(study.getLimit() > 0, "스터디 최대 참석 가능 인원은 0보다 커야 한다.")
+			() -> assertTrue(study.getLimitCount() > 0, "스터디 최대 참석 가능 인원은 0보다 커야 한다.")
 		);
 	}
 
@@ -120,7 +123,7 @@ class StudyTest {
 		System.out.println("value : " + value++);
 
 		Study study = new Study(10);
-		assertThat(study.getLimit()).isGreaterThan(0);
+		assertThat(study.getLimitCount()).isGreaterThan(0);
 	}
 
 	@Test
@@ -135,15 +138,15 @@ class StudyTest {
 		assumingThat(System.getenv().get("HOME").equals("/Users/kimjihun"), () -> {
 			System.out.println("kimjihun");
 			Study study = new Study(10);
-			assertThat(study.getLimit()).isGreaterThan(0);
+			assertThat(study.getLimitCount()).isGreaterThan(0);
 		});
 		assumingThat(System.getenv().get("HOME").equals("/Users/kimjihun1"), () -> {
 			System.out.println("kimjihun1");
 			Study study = new Study(10);
-			assertThat(study.getLimit()).isGreaterThan(0);
+			assertThat(study.getLimitCount()).isGreaterThan(0);
 		});
 		Study study = new Study(10);
-		assertThat(study.getLimit()).isGreaterThan(0);
+		assertThat(study.getLimitCount()).isGreaterThan(0);
 	}
 
 	@Test
@@ -186,7 +189,7 @@ class StudyTest {
 		@ConvertWith(StudyConverter.class) Study study
 	) {
 		// System.out.println(limit);
-		System.out.println(study.getLimit());
+		System.out.println(study.getLimitCount());
 	}
 
 	static class StudyAggregator implements ArgumentsAggregator {

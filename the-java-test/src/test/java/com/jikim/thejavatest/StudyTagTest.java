@@ -2,10 +2,10 @@ package com.jikim.thejavatest;
 
 import static org.assertj.core.api.Assertions.*;
 
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.RegisterExtension;
+
+import com.jikim.thejavatest.domain.Study;
 
 // @ExtendWith(FindSlowTestExtension.class)
 class StudyTagTest {
@@ -19,7 +19,7 @@ class StudyTagTest {
 	void TagFast() throws InterruptedException {
 		Thread.sleep(1005L);
 		Study study = new Study(10);
-		assertThat(study.getLimit()).isGreaterThan(0);
+		assertThat(study.getLimitCount()).isGreaterThan(0);
 	}
 
 	@Test
@@ -28,6 +28,6 @@ class StudyTagTest {
 	void TagSlow() throws InterruptedException {
 		Thread.sleep(1005L);
 		Study study = new Study(10);
-		assertThat(study.getLimit()).isGreaterThan(0);
+		assertThat(study.getLimitCount()).isGreaterThan(0);
 	}
 }
