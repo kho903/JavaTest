@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -93,6 +94,17 @@ class StudyServiceTest {
 
 		assertNotNull(study.getOwner());
 		assertEquals(member, study.getOwner());
+
+		verify(memberService, times(1)).notify(study);
+		verify(memberService, times(1)).notify(member);
+		verify(memberService, never()).validate(any());
+
+		// 순서
+		InOrder inOrder = inOrder(memberService);
+		inOrder.verify(memberService).notify(study);
+		inOrder.verify(memberService).notify(member);
+
+		verifyNoMoreInteractions(memberService);
 
 	}
 
